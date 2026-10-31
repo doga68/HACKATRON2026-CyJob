@@ -1,0 +1,18 @@
+{% extends "jobs/base.html" %}
+{% block title %}Bildirimler{% endblock %}
+{% block content %}
+<div class="page-head">
+ <div>
+  <h1>Bildirimler</h1>
+  <p class="page-sub">Başvurularınla ilgili son gelişmeler.</p>
+ </div>
+</div>
+{% for n in items %}
+ <div class="card {% if not n.is_read %}notice{% endif %}">
+  {{ n.message }}<br><small>{{ n.created_at|date:"d.m.Y H:i" }}
+  {% if n.application_id %} · <a href="{% url 'jobs:application_detail' n.application_id %}">Başvuruyu gör</a>{% endif %}</small>
+ </div>
+{% empty %}
+ <div class="card empty">Henüz bildirimin yok. Başvuru durumun değiştiğinde burada göreceksin.</div>
+{% endfor %}
+{% endblock %}

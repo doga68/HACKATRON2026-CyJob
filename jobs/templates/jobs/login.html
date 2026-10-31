@@ -1,0 +1,20 @@
+{% extends "jobs/base.html" %}
+{% block title %}Personel Girişi{% endblock %}
+{% block content %}
+<div class="auth">
+ <div class="login-card">
+  <div class="login-mark" aria-hidden="true">✦</div>
+  <span class="login-card-kicker">PERSONEL GİRİŞİ</span>
+  <h2>Tekrar hoş geldin</h2>
+  <p class="login-subtitle">İş fırsatlarını keşfetmek için giriş yap.</p>
+  <form method="post">{% csrf_token %}
+   {{ form.as_p }}
+   <button class="btn login-submit" type="submit">Giriş Yap <span aria-hidden="true">→</span></button>
+  </form>
+  <div class="auth-links">
+   <p>Hesabın yok mu? <a href="{% url 'jobs:register' %}">Personel olarak kayıt ol</a></p>
+   <p>İşletme sahibi misin? <a href="{% url 'employer:login' %}">İşveren girişi</a></p>
+  </div>
+ </div>
+</div>
+{% endblock %}

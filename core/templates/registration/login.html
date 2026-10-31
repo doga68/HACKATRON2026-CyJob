@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+{% block title %}İşveren Girişi{% endblock %}
+{% block content %}
+<div class="auth">
+  <div class="login-card">
+    <div class="login-mark" aria-hidden="true">✦</div>
+    <span class="login-card-kicker">İŞVEREN GİRİŞİ</span>
+    <h2>Tekrar hoş geldiniz</h2>
+    <p class="login-subtitle">İlanlarınızı ve başvuruları yönetmek için giriş yapın.</p>
+    <form method="post">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="errorlist">{{ form.non_field_errors }}</div>{% endif %}
+      <p><label for="id_username">Kullanıcı adı</label>{{ form.username }}</p>
+      <p><label for="id_password">Şifre</label>{{ form.password }}</p>
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <button class="btn login-submit" type="submit">Giriş yap <span aria-hidden="true">→</span></button>
+    </form>
+    <div class="auth-links">
+      <p>Otel, restoran, kafe, bahçe sahibi misiniz? <a href="{% url 'employer:register' %}">İşveren olarak kayıt olun</a></p>
+      <p>İş mi arıyorsunuz? <a href="{% url 'jobs:login' %}">Personel girişi</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

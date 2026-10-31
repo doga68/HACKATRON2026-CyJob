@@ -1,0 +1,59 @@
+{% extends "core/base.html" %}
+{% block title %}{{ job.title }}{% endblock %}
+{% block content %}
+<a class="back" href="{% url 'employer:job_list' %}">← İlanlarım</a>
+<div class="page-head"><h1>{{ job.title }}</h1></div>
+
+<div class="card">
+  <p>
+    {{ job.get_department_display }} · {{ job.get_city_display }} ·
+    {% if job.status == 'open' %}<span class="badge b-green">Açık</span>{% else %}<span class="badge b-gray">Kapalı</span>{% endif %}
+    {% if job.is_expired %}<span class="badge b-red">Sezonu bitti</span>{% endif %}
+  </p>
+  <p>{% include "core/_job_badges.html" %}</p>
+  <p>
+    Aranan kişi: <strong>{{ job.positions }}</strong> ·
+    Kabul edilen: <strong>{{ accepted }}</strong> ·
+    En az deneyim: <strong>{{ job.min_experience_years }} yıl</strong> ·
+    Diller: <strong>{% for l in job.required_languages.all %}{{ l.name }}{% if not forloop.last %}, {% endif %}{% empty %}şart yok{% endfor %}</strong>
+  </p>
+  {% if job.description %}<p>{{ job.description|linebreaksbr }}</p>{% endif %}
+  <div class="actions">
+    <a class="btn" href="{% url 'employer:application_add' job.pk %}">+ Başvuru ekle</a>
+    <a class="btn secondary" href="{% url 'employer:job_edit' job.pk %}">Düzenle</a>
+    <form method="post" action="{% url 'employer:job_toggle' job.pk %}">
+      {% csrf_token %}
+      <button class="btn {% if job.status == 'open' %}danger{% endif %}" type="submit">
+        {% if job.status == 'open' %}İlanı kapat{% else %}İlanı yeniden aç{% endif %}
+      </button>
+    </form>
+  </div>
+</div>
+
+<h2>Başvuranlar (uyum skoruna göre) – {{ total_applicants }} başvuru</h2>
+<div class="chips">
+  Filtre:
+  <a href="{% url 'employer:job_detail' job.pk %}"{% if not status_filter %} class="on"{% endif %}>Hepsi</a>
+  {% for value, label in status_choices %}
+    <a href="?status={{ value }}"{% if status_filter == value %} class="on"{% endif %}>{{ label }}</a>
+  {% endfor %}
+</div>
+{% if applicants %}
+<table>
+  <tr><th>Uyum</th><th>Aday</th><th>Deneyim</th><th>Diller</th><th>Durum</th><th>Başvuru</th></tr>
+  {% for a in applicants %}
+  <tr>
+    <td>{% include "core/_score.html" with match=a.match %}</td>
+    <td><a href="{% url 'employer:application_detail' a.pk %}">{{ a.candidate.full_name }}</a>
+      {% if a.candidate.needs_accommodation %}<br><span class="badge">Konaklama arıyor</span>{% endif %}</td>
+    <td>{{ a.candidate.experience_years }} yıl</td>
+    <td>{% for l in a.candidate.languages.all %}{{ l.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+    <td>{{ a.get_status_display }}</td>
+    <td>{{ a.applied_at|date:"d.m.Y" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div class="card empty">Bu filtreye uyan başvuru yok.</div>
+{% endif %}
+{% endblock %}

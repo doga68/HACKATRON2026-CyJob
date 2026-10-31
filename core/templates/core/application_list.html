@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+{% block title %}Başvurular{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Başvurular</h1>
+    <p class="page-sub">Adaylar uyum skoruna göre sıralanır.</p>
+  </div>
+</div>
+
+<div class="card filters">
+  <form method="get">
+    {{ form.as_p }}
+    <div class="form-actions">
+      <button class="btn" type="submit">Filtrele</button>
+      <a class="btn secondary" href="{% url 'employer:application_list' %}">Temizle</a>
+    </div>
+  </form>
+</div>
+
+<p class="muted">{{ applications|length }} başvuru listeleniyor.</p>
+{% if applications %}
+<table>
+  <tr><th>Uyum</th><th>Aday</th><th>İlan</th><th>Deneyim</th><th>Durum</th><th>Tarih</th></tr>
+  {% for a in applications %}
+  <tr>
+    <td>{% include "core/_score.html" with match=a.match %}</td>
+    <td><a href="{% url 'employer:application_detail' a.pk %}">{{ a.candidate.full_name }}</a></td>
+    <td><a href="{% url 'employer:job_detail' a.job.pk %}">{{ a.job.title }}</a></td>
+    <td>{{ a.candidate.experience_years }} yıl</td>
+    <td>{{ a.get_status_display }}</td>
+    <td>{{ a.applied_at|date:"d.m.Y H:i" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div class="card empty">Bu filtreye uyan başvuru yok.</div>
+{% endif %}
+{% endblock %}

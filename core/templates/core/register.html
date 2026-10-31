@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+{% block title %}İşveren Kaydı{% endblock %}
+{% block content %}
+<div class="auth">
+  <div class="login-card wide">
+    <div class="login-mark" aria-hidden="true">✦</div>
+    <span class="login-card-kicker">İŞVEREN KAYDI</span>
+    <h2>İşletmeniz için personel bulun</h2>
+    <p class="login-subtitle">Otel, restoran, kafe, bahçe/çiftlik sahipleri ve personel arayan tüm işletmeler kayıt olabilir. Kayıt olduğunuzda işletmeniz ve hesabınız birlikte oluşturulur.</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn login-submit" type="submit">Kayıt ol <span aria-hidden="true">→</span></button>
+    </form>
+    <div class="auth-links">
+      <p>Zaten hesabınız var mı? <a href="{% url 'employer:login' %}">Giriş yapın</a></p>
+      <p>İş mi arıyorsunuz? <a href="{% url 'jobs:register' %}">Personel olarak kayıt olun</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

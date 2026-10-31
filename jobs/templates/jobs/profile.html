@@ -1,0 +1,16 @@
+{% extends "jobs/base.html" %}
+{% block title %}Profilim{% endblock %}
+{% block content %}
+<div class="page-head">
+ <div>
+  <h1>Profilim</h1>
+  <p class="page-sub">Uyum skoru bu bilgilere göre hesaplanır. Güncel tutun.</p>
+ </div>
+</div>
+<div class="card" style="max-width:640px">
+ <form method="post" enctype="multipart/form-data">{% csrf_token %}
+  {{ form.as_p }}
+  <div class="actions"><button class="btn">Kaydet</button></div>
+ </form>
+</div>
+{% endblock %}

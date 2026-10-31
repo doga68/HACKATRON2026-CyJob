@@ -1,0 +1,30 @@
+{% extends "jobs/base.html" %}
+{% block title %}Başvuru Detayı{% endblock %}
+{% block content %}
+<a class="back" href="{% url 'jobs:my_applications' %}">← Başvurularım</a>
+<div class="card">
+ <h1 style="margin-top:0">{{ application.job.title }}</h1>
+ <div class="meta-line">{{ application.job.hotel_name }} · {{ application.job.department }}</div>
+ <p class="muted">Başvuru tarihi: {{ application.created_at|date:"d.m.Y H:i" }}</p>
+
+ <div class="tl">
+  {% for s in timeline %}<div class="{% if s.done %}done{% endif %}">{{ s.label }}</div>{% endfor %}
+  {% if final %}
+   <div class="{% if final.accepted %}ok{% else %}no{% endif %}">{{ final.label }}</div>
+  {% else %}
+   <div>Sonuç bekleniyor</div>
+  {% endif %}
+ </div>
+
+ {% if application.interview_date %}
+  <p><strong>Görüşme tarihi:</strong> {{ application.interview_date|date:"d.m.Y H:i" }}</p>
+ {% endif %}
+ {% if application.hr_note %}
+  <div class="note-box"><strong>İK notu:</strong><br>{{ application.hr_note|linebreaksbr }}</div>
+ {% endif %}
+ <h3>Geçmiş</h3>
+ <ul class="history">
+  {% for h in history %}<li>{{ h.created_at|date:"d.m.Y H:i" }} — {{ h.get_status_display }}</li>{% endfor %}
+ </ul>
+</div>
+{% endblock %}

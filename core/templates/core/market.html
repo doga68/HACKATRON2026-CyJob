@@ -1,0 +1,47 @@
+{% extends "core/base.html" %}
+{% block title %}Piyasa{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Piyasa</h1>
+    <p class="page-sub">Diğer işletmelerin açık ilanları.</p>
+  </div>
+</div>
+
+<div class="card filters">
+  <form method="get">
+    {{ form.as_p }}
+    <div class="form-actions">
+      <button class="btn" type="submit">Filtrele</button>
+      <a class="btn secondary" href="{% url 'employer:market' %}">Temizle</a>
+    </div>
+  </form>
+</div>
+
+<p class="muted">{{ page.paginator.count }} ilan bulundu.</p>
+
+{% for job in page %}
+<div class="card">
+  <strong>{{ job.title }}</strong> – {{ job.company.name }}
+  <br><span class="muted">{{ job.company.get_business_type_display }} · {{ job.get_department_display }} · {{ job.get_city_display }}</span>
+  <p style="margin:8px 0">{% include "core/_job_badges.html" %}</p>
+  <p style="margin:4px 0">
+    En az deneyim: {{ job.min_experience_years }} yıl ·
+    Diller: {% for l in job.required_languages.all %}{{ l.name }}{% if not forloop.last %}, {% endif %}{% empty %}şart yok{% endfor %} ·
+    Maaş:
+    {% if job.salary_min and job.salary_max %}{{ job.salary_min }}–{{ job.salary_max }} {{ job.get_currency_display }}
+    {% elif job.salary_min %}{{ job.salary_min }}+ {{ job.get_currency_display }}
+    {% elif job.salary_max %}en çok {{ job.salary_max }} {{ job.get_currency_display }}
+    {% else %}belirtilmemiş{% endif %}
+  </p>
+</div>
+{% endfor %}
+
+{% if page.paginator.num_pages > 1 %}
+<p class="pager">
+  {% if page.has_previous %}<a href="?{% if query %}{{ query }}&amp;{% endif %}page={{ page.previous_page_number }}">← Önceki</a>{% endif %}
+  Sayfa {{ page.number }} / {{ page.paginator.num_pages }}
+  {% if page.has_next %}<a href="?{% if query %}{{ query }}&amp;{% endif %}page={{ page.next_page_number }}">Sonraki →</a>{% endif %}
+</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "core/base.html" %}
+{% block title %}Panel{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Panel – {{ request.company.name }}</h1>
+    <p class="page-sub">İlanlarınızın ve başvuruların genel görünümü.</p>
+  </div>
+  <a class="btn" href="{% url 'employer:job_create' %}">+ Yeni ilan</a>
+</div>
+
+<div class="row">
+  <div class="card"><div class="big">{{ open_jobs }}</div>Açık ilan <span class="muted">(toplam {{ total_jobs }})</span></div>
+  <div class="card"><div class="big">{{ total_apps }}</div>Toplam başvuru</div>
+  <div class="card"><div class="big">{{ pending_total }}</div>İncelenmeyi bekleyen</div>
+</div>
+
+<h2>Başvuru durumları</h2>
+<div class="row">
+  {% for row in status_rows %}
+    <a class="card stat" href="{% url 'employer:application_list' %}?status={{ row.value }}">
+      <div class="big">{{ row.n }}</div>{{ row.label }}
+    </a>
+  {% endfor %}
+</div>
+
+<h2>İncelenmeyi bekleyen en uyumlu adaylar</h2>
+{% if pending %}
+<table>
+  <tr><th>Uyum</th><th>Aday</th><th>İlan</th><th>Başvuru</th></tr>
+  {% for a in pending %}
+  <tr>
+    <td>{% include "core/_score.html" with match=a.match %}</td>
+    <td><a href="{% url 'employer:application_detail' a.pk %}">{{ a.candidate.full_name }}</a></td>
+    <td>{{ a.job.title }}</td>
+    <td>{{ a.applied_at|date:"d.m.Y H:i" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div class="card empty">Bekleyen başvuru yok.</div>
+{% endif %}
+
+<h2>Son başvurular</h2>
+{% if recent %}
+<table>
+  <tr><th>Uyum</th><th>Aday</th><th>İlan</th><th>Durum</th><th>Tarih</th></tr>
+  {% for a in recent %}
+  <tr>
+    <td>{% include "core/_score.html" with match=a.match %}</td>
+    <td><a href="{% url 'employer:application_detail' a.pk %}">{{ a.candidate.full_name }}</a></td>
+    <td>{{ a.job.title }}</td>
+    <td>{{ a.get_status_display }}</td>
+    <td>{{ a.applied_at|date:"d.m.Y H:i" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div class="card empty">Henüz başvuru yok. <a href="{% url 'employer:job_list' %}">İlanlarım</a> sayfasından bir ilana başvuru ekleyebilirsiniz.</div>
+{% endif %}
+{% endblock %}

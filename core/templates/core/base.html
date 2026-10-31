@@ -1,0 +1,40 @@
+{% load static %}<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Panel{% endblock %} · CyJob İşveren Portalı</title>
+  <link rel="icon" type="image/png" href="{% static 'portal/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'portal/cyjob.css' %}">
+</head>
+<body class="app app-employer">
+  <a class="skip-link" href="#icerik">İçeriğe geç</a>
+  {% with current=request.resolver_match.url_name %}
+  <nav>
+    <a href="{% if user.is_authenticated and request.employer %}{% url 'employer:dashboard' %}{% else %}{% url 'home' %}{% endif %}" class="brand"><img src="{% static 'portal/logo.png' %}" alt="CyJob logo"><span>CyJob</span></a>
+    <span class="brand-role">İŞVEREN</span>
+    {% if user.is_authenticated and request.employer %}
+    <a href="{% url 'employer:dashboard' %}" {% if current == 'dashboard' %}class="active"{% endif %}>Panel</a>
+    <a href="{% url 'employer:application_list' %}" {% if current == 'application_list' or current == 'application_detail' or current == 'application_add' %}class="active"{% endif %}>Başvurular</a>
+    <a href="{% url 'employer:job_list' %}" {% if current == 'job_list' or current == 'job_detail' or current == 'job_create' or current == 'job_edit' %}class="active"{% endif %}>İlanlarım</a>
+    <a href="{% url 'employer:market' %}" {% if current == 'market' %}class="active"{% endif %}>Piyasa</a>
+    <span class="sp"></span>
+    <span class="who">{{ request.company.name }} · {{ user.get_username }}</span>
+    <form method="post" action="{% url 'employer:logout' %}" style="margin:0">
+      {% csrf_token %}<button type="submit">Çıkış</button>
+    </form>
+    {% else %}
+    <span class="sp"></span>
+    <a href="{% url 'employer:login' %}" {% if current == 'login' %}class="active"{% endif %}>Giriş</a>
+    <a href="{% url 'employer:register' %}" {% if current == 'register' %}class="active"{% endif %}>Kayıt Ol</a>
+    {% endif %}
+  </nav>
+  {% endwith %}
+  <main id="icerik" class="wrap wide">
+    {% for message in messages %}
+      <div class="msg {% if message.tags == 'error' %}error{% endif %}">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

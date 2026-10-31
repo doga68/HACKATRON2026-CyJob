@@ -1,0 +1,61 @@
+{% extends "core/base.html" %}
+{% block title %}{{ candidate.full_name }}{% endblock %}
+{% block content %}
+<a class="back" href="{% url 'employer:job_detail' job.pk %}">← {{ job.title }}</a>
+<div class="page-head">
+  <h1>{{ candidate.full_name }} {% include "core/_score.html" %}</h1>
+</div>
+
+<div class="row">
+  <div class="card">
+    <h2 style="margin-top:0">Aday</h2>
+    <p>E-posta: {{ candidate.email }}<br>
+       Telefon: {{ candidate.phone|default:"–" }}<br>
+       Şehir: {{ candidate.get_city_display|default:"–" }}</p>
+    <p>Departman: <strong>{{ candidate.get_department_display }}</strong><br>
+       Deneyim: <strong>{{ candidate.experience_years }} yıl</strong><br>
+       Diller: {% for l in candidate.languages.all %}{{ l.name }}{% if not forloop.last %}, {% endif %}{% empty %}–{% endfor %}</p>
+    <p>
+      {% if candidate.needs_accommodation %}<span class="badge">Konaklama arıyor</span>{% endif %}
+      {% if candidate.accepts_full_time %}<span class="badge">Tam zamanlı</span>{% endif %}
+      {% if candidate.accepts_part_time %}<span class="badge">Yarı zamanlı</span>{% endif %}
+      {% if candidate.accepts_seasonal %}<span class="badge">Sezonluk</span>{% endif %}
+    </p>
+    <p>Müsait olduğu tarih: {{ candidate.available_from|date:"d.m.Y"|default:"Hemen" }}</p>
+    {% if candidate.summary %}<p>{{ candidate.summary|linebreaksbr }}</p>{% endif %}
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Uyum skoru: %{{ match.score }} <span class="muted">({{ match.level_label }})</span></h2>
+    <table>
+      <tr><th>Ölçüt</th><th>Puan</th><th>Açıklama</th></tr>
+      {% for p in match.parts %}
+      <tr><td>{{ p.label }}</td><td>{{ p.points }} / {{ p.max_points }}</td><td>{{ p.note }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<h2>Başvuru durumu</h2>
+<div class="card" style="max-width:640px">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Kaydet</button>
+  </form>
+</div>
+
+<h2>Durum geçmişi</h2>
+<table>
+  <tr><th>Tarih</th><th>Değişiklik</th><th>Yapan</th></tr>
+  {% for log in logs %}
+  <tr>
+    <td>{{ log.changed_at|date:"d.m.Y H:i" }}</td>
+    <td>{% if log.old_status %}{{ log.get_old_status_display }} → {% endif %}{{ log.get_new_status_display }}</td>
+    <td>{{ log.changed_by.get_username|default:"–" }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="3" class="muted">Kayıt yok.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

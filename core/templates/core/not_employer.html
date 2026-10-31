@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+{% block title %}Yetkisiz{% endblock %}
+{% block content %}
+<div class="auth">
+  <div class="login-card">
+    <div class="login-mark" aria-hidden="true">!</div>
+    <span class="login-card-kicker">YETKİSİZ HESAP</span>
+    <h2>Bu hesap bir işveren hesabı değil</h2>
+    <p class="login-subtitle">Bu panele sadece işveren hesapları girebilir. Hesabınıza bir işletme tanımlanması gerekir. İş arıyorsanız personel girişini kullanın.</p>
+    <form method="post" action="{% url 'employer:logout' %}">
+      {% csrf_token %}<button class="btn login-submit" type="submit">Çıkış yap <span aria-hidden="true">→</span></button>
+    </form>
+    <div class="auth-links"><p><a href="{% url 'home' %}">Ana sayfaya dön</a></p></div>
+  </div>
+</div>
+{% endblock %}

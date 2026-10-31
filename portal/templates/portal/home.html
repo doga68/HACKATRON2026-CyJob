@@ -1,0 +1,120 @@
+{% load static %}<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>CyJob — Otel İş Portalı</title>
+<link rel="icon" type="image/png" href="{% static 'portal/favicon.png' %}">
+<link rel="stylesheet" href="{% static 'portal/cyjob.css' %}">
+</head><body><nav>
+ <a href="{% url 'home' %}" class="brand"><img src="{% static 'portal/logo.png' %}" alt="CyJob logo"><span>CyJob</span></a>
+ <span class="sp"></span><a href="#hesap">Giriş</a><a href="#hesap">Kayıt Ol</a>
+</nav><div class="wrap"><section class="login-layout">
+ <div class="login-story">
+  <div class="login-copy">
+   <span class="login-eyebrow"><span class="eyebrow-dot"></span> OTEL İŞ PORTALI · KIBRIS</span>
+   <h1>Kıbrısta yeni<br>fırsatlara <em>merhaba</em> de.</h1>
+   <p>Deneyimini, dil becerilerini ve sana uygun çalışma koşullarını öne çıkar. Bir sonraki iş fırsatın burada başlayabilir.</p>
+  </div>
+  <div class="matching-visual" aria-hidden="true">
+   <div class="visual-halo halo-one"></div>
+   <div class="visual-halo halo-two"></div>
+   <svg class="hotel-illustration" viewBox="0 0 720 500" role="presentation">
+    <defs>
+     <linearGradient id="hotelFront" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fffdf8"/>
+      <stop offset="1" stop-color="#dcebe4"/>
+     </linearGradient>
+     <linearGradient id="hotelSide" x1="0" x2="1">
+      <stop offset="0" stop-color="#c5dcd3"/>
+      <stop offset="1" stop-color="#a9c9bd"/>
+     </linearGradient>
+     <linearGradient id="windowGlow" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff3ca"/>
+      <stop offset="1" stop-color="#f0c777"/>
+     </linearGradient>
+     <filter id="softShadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#173c36" flood-opacity=".12"/>
+     </filter>
+    </defs>
+    <path class="visual-ground" d="M43 414 C168 389 254 431 372 407 C495 382 574 394 681 420 L681 500 L43 500 Z"/>
+    <path class="connection-path" d="M104 345 C198 272 246 302 330 265 S478 226 583 165"/>
+    <g class="hotel-building" filter="url(#softShadow)">
+     <path d="M348 145 L472 102 L596 145 L596 397 L348 397 Z" fill="url(#hotelSide)"/>
+     <path d="M224 157 L348 112 L472 157 L472 397 L224 397 Z" fill="url(#hotelFront)"/>
+     <path d="M205 157 L348 103 L491 157 L472 171 L348 129 L224 171 Z" fill="#176c62"/>
+     <path d="M279 136 L348 110 L418 136 L408 150 L348 128 L289 150 Z" fill="#edb66e"/>
+     <rect x="235" y="171" width="225" height="15" rx="3" fill="#d9e9e2"/>
+     <g class="window-row">
+      <rect x="251" y="203" width="38" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="309" y="203" width="38" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="367" y="203" width="38" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="425" y="203" width="27" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="251" y="263" width="38" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="309" y="263" width="38" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="367" y="263" width="38" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="425" y="263" width="27" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="251" y="323" width="38" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="309" y="323" width="38" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="367" y="323" width="38" height="42" rx="5" fill="url(#windowGlow)"/>
+      <rect x="425" y="323" width="27" height="42" rx="5" fill="url(#windowGlow)"/>
+     </g>
+     <path d="M224 397 H472" stroke="#8aab9f" stroke-width="5" stroke-linecap="round"/>
+     <path d="M324 397 V352 Q324 335 341 335 H358 Q375 335 375 352 V397" fill="#176c62"/>
+     <path d="M337 357 H363" stroke="#e8c887" stroke-width="3" stroke-linecap="round"/>
+     <text x="348" y="163" text-anchor="middle" class="hotel-sign">H O T E L</text>
+    </g>
+    <g class="palm" opacity=".92">
+     <path d="M145 394 C151 335 156 279 149 223" fill="none" stroke="#916f4b" stroke-width="9" stroke-linecap="round"/>
+     <path d="M151 228 C117 209 91 212 68 230 C101 226 121 237 147 246" fill="#3f8b72"/>
+     <path d="M151 228 C130 194 109 184 80 187 C111 199 128 221 147 244" fill="#529b7d"/>
+     <path d="M151 228 C163 193 187 177 216 176 C187 192 169 215 154 245" fill="#2b7765"/>
+     <path d="M151 228 C185 211 212 215 237 234 C204 226 180 235 153 248" fill="#4b9978"/>
+     <path d="M151 228 C147 193 159 168 180 150 C166 181 165 205 157 243" fill="#68a982"/>
+    </g>
+    <g class="traveler">
+     <circle cx="116" cy="320" r="19" fill="#c97852"/>
+     <path d="M91 391 C92 357 98 343 116 342 C135 342 142 356 143 391 Z" fill="#176c62"/>
+     <path d="M101 355 L80 378 M133 356 L150 372" fill="none" stroke="#c97852" stroke-width="9" stroke-linecap="round"/>
+     <path d="M102 390 L98 414 M132 390 L138 414" fill="none" stroke="#294c48" stroke-width="9" stroke-linecap="round"/>
+     <rect x="141" y="368" width="22" height="29" rx="6" fill="#e9b263"/>
+     <path d="M146 370 V364 Q152 354 158 364 V370" fill="none" stroke="#9d6b34" stroke-width="3"/>
+    </g>
+    <g class="sparkle sparkle-a"><path d="M548 92 L553 106 L567 111 L553 116 L548 130 L543 116 L529 111 L543 106 Z" fill="#e6ad55"/></g>
+    <g class="sparkle sparkle-b"><path d="M195 119 L198 127 L206 130 L198 133 L195 141 L192 133 L184 130 L192 127 Z" fill="#68a982"/></g>
+    <circle class="route-dot dot-a" cx="206" cy="286" r="6" fill="#e6ad55"/>
+    <circle class="route-dot dot-b" cx="498" cy="203" r="5" fill="#2e8978"/>
+   </svg>
+   <div class="floating-card job-float">
+    <span class="float-icon">✦</span>
+    <span><small>YENİ FIRSAT</small><strong>Ön Büro Ekibi</strong><em>Turizm · Sezonluk</em></span>
+   </div>
+   <div class="floating-card match-float">
+    <span class="match-check">✓</span>
+    <span><small>İŞ BAŞVURUN</small><strong>Güncel durumunu takip et</strong><em>Başvurularımda seni bekliyor</em></span>
+   </div>
+  </div>
+  <div class="login-footnote"><span class="footnote-star">✳</span> Yeteneklerin, deneyimin ve yeni başlangıçlar.</div>
+ </div>
+ <div class="login-panel" id="hesap">
+  <div class="login-card">
+   <div class="login-mark" aria-hidden="true">✦</div>
+   <span class="login-card-kicker">ARAMIZA KATIL</span>
+   <h2>Nasıl devam etmek istersin?</h2>
+   <p class="login-subtitle">Hesap türünü seç, kaydını birkaç adımda tamamla.</p>
+   <a class="choice choice-staff" href="{% url 'jobs:register' %}">
+    <span><strong>Personel olarak kayıt ol</strong><small>İş arıyorum, otel ve işletmelerde çalışmak istiyorum.</small></span>
+    <span class="arrow" aria-hidden="true">→</span>
+   </a>
+   <a class="choice choice-employer" href="{% url 'employer:register' %}">
+    <span><strong>İşveren olarak kayıt ol</strong><small>İşletmem için personel arıyorum, ilan açacağım.</small></span>
+    <span class="arrow" aria-hidden="true">→</span>
+   </a>
+   <div class="login-divider"><span>ZATEN HESABIN VAR MI?</span></div>
+   <details class="login-toggle">
+    <summary>Giriş yap <span class="caret" aria-hidden="true">▼</span></summary>
+    <div class="login-options">
+     <a href="{% url 'jobs:login' %}">Personel girişi <span aria-hidden="true">→</span></a>
+     <a href="{% url 'employer:login' %}">İşveren girişi <span aria-hidden="true">→</span></a>
+    </div>
+   </details>
+   <p class="login-privacy" style="margin-top:19px">Hesabınla giriş yaparak başvuru durumunu ve yeni fırsatları takip edebilirsin.</p>
+  </div>
+  <div class="login-panel-note">İş arayanlar ve işverenler için tasarlandı <span>•</span> Kıbrıs turizm sektörü</div>
+ </div>
+</section></div></body></html>

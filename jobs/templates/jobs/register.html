@@ -1,0 +1,20 @@
+{% extends "jobs/base.html" %}
+{% block title %}Personel Kaydı{% endblock %}
+{% block content %}
+<div class="auth">
+ <div class="login-card wide">
+  <div class="login-mark" aria-hidden="true">✦</div>
+  <span class="login-card-kicker">PERSONEL KAYDI</span>
+  <h2>Kıbrıs'ta yeni bir başlangıç</h2>
+  <p class="login-subtitle">Bilgilerini gir; sana uygun ilanları uyum oranıyla birlikte gösterelim.</p>
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+   {{ form.as_p }}
+   <button class="btn login-submit" type="submit">Kayıt Ol <span aria-hidden="true">→</span></button>
+  </form>
+  <div class="auth-links">
+   <p>Zaten hesabın var mı? <a href="{% url 'jobs:login' %}">Giriş yap</a></p>
+   <p>İşletme sahibi misin? <a href="{% url 'employer:register' %}">İşveren olarak kayıt ol</a></p>
+  </div>
+ </div>
+</div>
+{% endblock %}

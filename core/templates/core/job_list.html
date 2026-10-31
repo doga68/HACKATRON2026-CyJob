@@ -1,0 +1,31 @@
+{% extends "core/base.html" %}
+{% block title %}İlanlarım{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>İlanlarım</h1>
+    <p class="page-sub">İşletmenizin yayındaki ve kapalı ilanları.</p>
+  </div>
+  <a class="btn" href="{% url 'employer:job_create' %}">+ Yeni ilan</a>
+</div>
+
+{% if jobs %}
+<table>
+  <tr><th>İlan</th><th>Departman / Şehir</th><th>Özellikler</th><th>Başvuru</th><th>Durum</th></tr>
+  {% for job in jobs %}
+  <tr>
+    <td><a href="{% url 'employer:job_detail' job.pk %}">{{ job.title }}</a></td>
+    <td>{{ job.get_department_display }}<br><span class="muted">{{ job.get_city_display }}</span></td>
+    <td>{% include "core/_job_badges.html" %}</td>
+    <td>{{ job.app_count }}</td>
+    <td>
+      {% if job.status == 'open' %}<span class="badge b-green">Açık</span>{% else %}<span class="badge b-gray">Kapalı</span>{% endif %}
+      {% if job.is_expired %}<span class="badge b-red">Sezonu bitti</span>{% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div class="card empty">Henüz ilanınız yok. <a href="{% url 'employer:job_create' %}">İlk ilanınızı açın</a>.</div>
+{% endif %}
+{% endblock %}

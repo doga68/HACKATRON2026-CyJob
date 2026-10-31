@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<a class="back" href="{% if job %}{% url 'employer:job_detail' job.pk %}{% else %}{% url 'employer:job_list' %}{% endif %}">← Geri</a>
+<div class="page-head"><h1>{{ title }}</h1></div>
+<div class="card" style="max-width:640px">
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="actions">
+      <button class="btn" type="submit">Kaydet</button>
+      <a class="btn secondary" href="{% if job %}{% url 'employer:job_detail' job.pk %}{% else %}{% url 'employer:job_list' %}{% endif %}">Vazgeç</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

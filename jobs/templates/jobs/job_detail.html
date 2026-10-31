@@ -1,0 +1,36 @@
+{% extends "jobs/base.html" %}
+{% block title %}{{ job.title }}{% endblock %}
+{% block content %}
+<a class="back" href="{% url 'jobs:job_list' %}">← İlanlara dön</a>
+<div class="card">
+ <h1 style="margin-top:0">{{ job.title }}</h1>
+ <div class="meta-line">{{ job.hotel_name }}{% if job.location %} · {{ job.location }}{% endif %} · {{ job.department }}</div>
+ <p class="score">Size uyum: %{{ score }}</p>
+ <p>
+  <span class="tag blue">{{ job.get_job_type_display }}</span>
+  {% if job.provides_accommodation %}<span class="tag green">🏠 Konaklama sağlanır</span>{% endif %}
+  {% if job.provides_meals %}<span class="tag green">🍽 Yemek sağlanır</span>{% endif %}
+ </p>
+ {% if job.job_type == 'seasonal' %}
+  <p><strong>Sezon:</strong> {{ job.season_start|date:"d.m.Y" }} - {{ job.season_end|date:"d.m.Y" }}</p>
+ {% endif %}
+ <p><strong>Gerekli diller:</strong> {% for l in job.required_languages.all %}{{ l }}{% if not forloop.last %}, {% endif %}{% empty %}Belirtilmemiş{% endfor %}</p>
+ <p><strong>Min. deneyim:</strong> {{ job.min_experience }} yıl</p>
+ {% if job.salary_info %}<p><strong>Maaş:</strong> {{ job.salary_info }}</p>{% endif %}
+ {% if job.application_deadline %}<p><strong>Son başvuru:</strong> {{ job.application_deadline|date:"d.m.Y" }}</p>{% endif %}
+ <p>{{ job.description|linebreaksbr }}</p>
+ <hr>
+ {% if application %}
+  <p>Bu ilana başvurdunuz. Durum: <strong>{{ application.get_status_display }}</strong>
+   — <a href="{% url 'jobs:application_detail' application.pk %}">Detay</a></p>
+ {% elif job.is_open %}
+  <form method="post" action="{% url 'jobs:apply_job' job.pk %}">{% csrf_token %}
+   <label for="cover_note">Ön yazı (isteğe bağlı)</label>
+   <textarea id="cover_note" name="cover_note" rows="4"></textarea>
+   <div class="actions"><button class="btn">Başvur</button></div>
+  </form>
+ {% else %}
+  <p class="muted">Bu ilanın başvuru süresi dolmuştur.</p>
+ {% endif %}
+</div>
+{% endblock %}

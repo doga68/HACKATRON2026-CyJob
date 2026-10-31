@@ -1,0 +1,3 @@
+{% if job.provides_accommodation %}<span class="badge b-green">Konaklama sağlanır</span>{% endif %}
+{% if job.provides_meals %}<span class="badge b-green">Yemek sağlanır</span>{% endif %}
+{% if job.is_seasonal %}<span class="badge b-blue">Sezonluk: {{ job.season_start|date:"d.m.Y" }} – {{ job.season_end|date:"d.m.Y" }}</span>{% else %}<span class="badge">{{ job.get_employment_type_display }}</span>{% endif %}

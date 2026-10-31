@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+{% block title %}Başvuru ekle{% endblock %}
+{% block content %}
+<a class="back" href="{% url 'employer:job_detail' job.pk %}">← {{ job.title }}</a>
+<div class="page-head">
+  <div>
+    <h1>Başvuru ekle</h1>
+    <p class="page-sub">İlan: <a href="{% url 'employer:job_detail' job.pk %}">{{ job.title }}</a></p>
+  </div>
+</div>
+<div class="card" style="max-width:640px">
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="actions">
+      <button class="btn" type="submit">Başvuruyu kaydet</button>
+      <a class="btn secondary" href="{% url 'employer:job_detail' job.pk %}">Vazgeç</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

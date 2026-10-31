@@ -1,0 +1,60 @@
+{% extends "jobs/base.html" %}
+{% block title %}İş İlanları{% endblock %}
+{% block content %}
+<div class="page-head">
+ <div>
+  <h1>İş İlanları</h1>
+  <p class="page-sub">Profiline göre hesaplanan uyum oranıyla sana uygun fırsatlar.</p>
+ </div>
+</div>
+
+<div class="card filters">
+ <h3 style="margin-top:0">İlanları filtrele</h3>
+ <form method="get">
+  <div class="filter-grid">
+   <div>{{ form.q.label_tag }}{{ form.q }}</div>
+   <div>{{ form.department.label_tag }}{{ form.department }}</div>
+   <div>{{ form.job_type.label_tag }}{{ form.job_type }}</div>
+   <div>{{ form.language.label_tag }}{{ form.language }}</div>
+   <div>{{ form.location.label_tag }}{{ form.location }}</div>
+   <div>{{ form.max_experience.label_tag }}{{ form.max_experience }}</div>
+   <div>{{ form.season_from.label_tag }}{{ form.season_from }}</div>
+   <div>{{ form.season_to.label_tag }}{{ form.season_to }}</div>
+   <div>{{ form.sort.label_tag }}{{ form.sort }}</div>
+  </div>
+  <div class="filter-checks">
+   <label>{{ form.accommodation }} {{ form.accommodation.label }}</label>
+   <label>{{ form.meals }} {{ form.meals.label }}</label>
+   <label>{{ form.seasonal }} {{ form.seasonal.label }}</label>
+  </div>
+  <div class="actions" style="margin-top:0">
+   <button class="btn">Filtrele</button>
+   <a class="btn btn-sec" href="{% url 'jobs:job_list' %}">Temizle</a>
+  </div>
+ </form>
+</div>
+
+<p class="meta-line"><strong>{{ rows|length }}</strong> ilan bulundu.</p>
+{% for r in rows %}
+ <div class="card job-card">
+  <div>
+   <h3><a href="{% url 'jobs:job_detail' r.job.pk %}">{{ r.job.title }}</a></h3>
+   <div class="meta-line" style="margin:0">{{ r.job.hotel_name }}{% if r.job.location %} · {{ r.job.location }}{% endif %} · {{ r.job.department }}</div>
+   <div class="tags">
+    <span class="tag blue">{{ r.job.get_job_type_display }}</span>
+    {% if r.job.provides_accommodation %}<span class="tag green">🏠 Konaklama</span>{% endif %}
+    {% if r.job.provides_meals %}<span class="tag green">🍽 Yemek</span>{% endif %}
+    {% if r.job.job_type == 'seasonal' and r.job.season_start %}
+     <span class="tag orange">📅 {{ r.job.season_start|date:"d.m.Y" }} - {{ r.job.season_end|date:"d.m.Y" }}</span>
+    {% endif %}
+    {% if r.job.min_experience %}<span class="tag">{{ r.job.min_experience }}+ yıl deneyim</span>{% endif %}
+    {% for l in r.job.required_languages.all %}<span class="tag">{{ l }}</span>{% endfor %}
+    {% if r.applied %}<span class="tag orange">✔ Başvuruldu</span>{% endif %}
+   </div>
+  </div>
+  <div class="match"><strong>%{{ r.score }}</strong><small>uyumunuz</small></div>
+ </div>
+{% empty %}
+ <div class="card empty">Filtrelere uygun ilan bulunamadı. Filtreleri temizleyip yeniden deneyebilirsin.</div>
+{% endfor %}
+{% endblock %}

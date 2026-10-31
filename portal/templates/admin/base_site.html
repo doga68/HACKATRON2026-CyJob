@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | CyJob Yönetim{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="icon" type="image/png" href="{% static 'portal/favicon.png' %}">
+<link rel="stylesheet" href="{% static 'portal/cyjob.css' %}">{% endblock %}
+{% block branding %}
+<div id="site-name"><a href="{% url 'admin:index' %}" class="brand-admin"><img src="{% static 'portal/logo.png' %}" alt="CyJob logo"><span>CyJob Yönetim</span></a></div>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+{% block nav-global %}{% endblock %}
